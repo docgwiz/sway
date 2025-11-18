@@ -1,15 +1,78 @@
-# This config file began as a copy of the template config file in /etc/..#
+# This config file began as a copy of the template config file 
+# in /etc/sway
 # Read `man 5 sway` for a complete reference.
 
-### Variables
+
+### Output configuration
 #
-# Set the $mod key to super
-set $mod Mod4
+   output eDP-1 mode 2880x1800@59.990Hz scale 2
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
 
-# Set the alt key to $alt (since Mod1 is harder to remember)
-set $alt Mod1
 
-# Home row direction keys, like vim
+### Background configuration
+#
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+# The output command is commented in Debian
+# because the Sway wallpaper files are in the `sway-backgrounds` packag. 
+# Installing this package drops a config file to /etc/sway/config.d/
+
+
+### Window configuration
+# Add gaps in between all application windows:
+gaps inner 4
+gaps outer 4
+
+# Configure the default border:
+default_border pixel 3
+
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+
+
+### Idle configuration
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, 
+# then turn off your displays after another 300 seconds, 
+# and turn your screens back on when resumed. 
+# It will also lock your screen before your computer goes to sleep.
+
+
+### Autostart
+
+exec mako
+
+
+### Variables
+
+# Set $mod key
+set $mod Mod4 
+#logo key key
+
+# Set $super key
+set $super Mod1
+#alt/option key
+
+# Home row direction keys a la cult of vim
 set $left h
 set $down j
 set $up k
@@ -39,72 +102,20 @@ include /etc/sway/config-vars.d/*
 
 
 
-### Background configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# This is commented in Debian, because the Sway wallpaper files are in a separate
-# package `sway-backgrounds`. Installing this package drops a config file to
-# /etc/sway/config.d/
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-
-
-
-
-### Output configuration
-#
-   output eDP-1 mode 2880x1800@59.990Hz scale 2
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
-
-
-
-
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-
-
-
-
-### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
-
-
-
-# Add gaps in between all application windows:
-gaps inner 4
-gaps outer 4
-
-
-# Configure the default border:
-default_border pixel 3
-
-
-
 ### Key bindings
+# This  config uses 
+# $mod / logo key for launching apps
+# $super / alt / option key for "dangerous" actions like kill or reload
+# $super+Shift for utilities
 #
-# Basics:
-#
+    # Exit sway (logs you out of your Wayland session)
+    # bindsym $mod+m exit
+    bindsym $super+q exit
+    # bindsym $mod+m exec swaynag -t warning -m 'Exit sway? (This will end your Wayland session.) ' -B 'Yes, exit sway' 'swaymsg exit'
+
+    # Reload the configuration file
+    bindsym $super+r reload
+ 
     # Start  terminal
     bindsym $mod+Return exec $term
 
@@ -112,7 +123,8 @@ default_border pixel 3
     bindsym $mod+f exec $filemngr
 
     # Kill focused window
-    bindsym $mod+w kill
+    # bindsym $mod+w kill
+    bindsym $super+w kill
 
     # Start launcher
     bindsym $mod+space exec $menu
@@ -126,19 +138,16 @@ default_border pixel 3
     # Start diary
     bindsym $mod+o exec $notemngr
 
+
+#
+# Resize windows:
+#
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
     # Change normal to inverse to use left mouse button for resizing and right
     # mouse button for dragging.
     floating_modifier $mod normal
-
-    # Reload the configuration file
-    bindsym $mod+Shift+r reload
-
-    # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+m exit
-    # bindsym $mod+m exec swaynag -t warning -m 'Exit sway? (This will end your Wayland session.) ' -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
 #
