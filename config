@@ -5,18 +5,20 @@
 
 ### Output configuration
 #
-   output eDP-1 mode 2880x1800@59.990Hz scale 2
+output eDP-1 mode 2880x1800@59.990Hz scale 2
 #
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+# Run swaymsg -t get_outputs for output deets
 
 
 ### Background configuration
 #
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
-# The output command is commented in Debian
-# because the Sway wallpaper files are in the `sway-backgrounds` packag. 
-# Installing this package drops a config file to /etc/sway/config.d/
+# The output command is commented in Debian,
+# which drops the config file 40-sway-background.conf 
+# into /etc/sway/config.d/
+# This config file uses the Sway wallpaper files in 
+# the `sway-backgrounds` package
 
 
 ### Window configuration
@@ -72,7 +74,7 @@ set $mod Mod4
 set $super Mod1
 #alt/option key
 
-# Home row direction keys a la cult of vim
+# Home row direction keys a la cult-of-vim
 set $left h
 set $down j
 set $up k
@@ -86,7 +88,7 @@ set $filemngr dolphin
 
 # Set application launcher
 set $menu wmenu-run
-  # replace with Wofi
+  # replace with wofi
 
 # Set browser
 set $browser firefox
@@ -103,28 +105,27 @@ include /etc/sway/config-vars.d/*
 
 
 ### Key bindings
-# This  config uses 
-# $mod / logo key for launching apps
-# $super / alt / option key for "dangerous" actions like kill or reload
-# $super+Shift for utilities
+# This config schema uses 
+# the $mod/logo key for launching apps
+# the $super/alt/option key for "dangerous" actions like kill or reload
+# $super+Shift for utility functions and apps
 #
     # Exit sway (logs you out of your Wayland session)
-    # bindsym $mod+m exit
     bindsym $super+q exit
     # bindsym $mod+m exec swaynag -t warning -m 'Exit sway? (This will end your Wayland session.) ' -B 'Yes, exit sway' 'swaymsg exit'
 
-    # Reload the configuration file
-    bindsym $super+r reload
+    # Kill focused window
+    # bindsym $mod+w kill
+    bindsym $super+w kill
  
+    # Reload the configuration file
+    bindsym $super+Shift+r reload
+
     # Start  terminal
     bindsym $mod+Return exec $term
 
     # Start file manager
     bindsym $mod+f exec $filemngr
-
-    # Kill focused window
-    # bindsym $mod+w kill
-    bindsym $super+w kill
 
     # Start launcher
     bindsym $mod+space exec $menu
@@ -151,27 +152,24 @@ include /etc/sway/config-vars.d/*
 #
 # Moving around:
 #
-    # Move your focus around
+    # Move your focus around with cult-of-vim shortcuts
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
+    
+    # Replicate above with $super/alt/option key shortcuts
+    bindsym $super+$left focus left
+    bindsym $super+$down focus down
+    bindsym $super+$up focus up
+    bindsym $super+$right focus right
+
     # Or use $mod+[up|down|left|right]
     bindsym $mod+Left focus left
     bindsym $mod+Down focus down
     bindsym $mod+Up focus up
     bindsym $mod+Right focus right
 
-    # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
 #
 # Workspaces:
 #
@@ -261,7 +259,7 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym $super+r mode "resize"
 #
 # Utilities:
 #
@@ -282,22 +280,58 @@ bindsym $mod+r mode "resize"
     # Special key to take a screenshot with grim
     bindsym Print exec grim
 
+
 #
-# Status Bar:
+# Window colors
+#
+# set primary gruvbox colorscheme colors
+# see https://github.com/morhetz/gruvbox-contrib/blob/master/color.table
+
+set $bg #282828
+set $bg_2 #504945
+set $fg #ebdbb2
+set $fg_1 #FBF1C7
+set $fg_2 #D5C4A1
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $blue_faded #076678
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
+
+
+# https://thomashunter.name/i3-configurator/
+
+# class                 border  bground text    indicator child_border
+client.focused          $yellow $yellow $fg     $yellow   $yellow
+client.focused_inactive $bg_2   #5F676A $fg     #484E50   #5F676A
+client.unfocused        $bg_2   #282828 #888888 #292D2E   #222222
+client.urgent           #2F343A #CC241D $fg_1   #CC241D   #CC241D
+client.placeholder      #1D2021 #0C0C0C $fg      #000000   #0C0C0C
+
+#
+# Status bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+ 
+    status_command ~/.config/sway/status.sh
+    #status_command while date +'%Y-%m-%d %X'; do sleep 1; done
 
     colors {
-        statusline #ffffff
+        statusline #99ffff
+        # text color of status bar
         background #323232
+        #background color of status bar
         inactive_workspace #32323200 #32323200 #5c5c5c
     }
 }
 
 include /etc/sway/config.d/*
+# This directory contains
+# 40-sway-background.conf
+# 50-systemd-user.conf
