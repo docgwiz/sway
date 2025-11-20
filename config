@@ -310,7 +310,7 @@ client.focused          $yellow $yellow $fg     $yellow   $yellow
 client.focused_inactive $bg_2   #5F676A $fg     #484E50   #5F676A
 client.unfocused        $bg_2   #282828 #888888 #292D2E   #222222
 client.urgent           #2F343A #CC241D $fg_1   #CC241D   #CC241D
-client.placeholder      #1D2021 #0C0C0C $fg      #000000   #0C0C0C
+client.placeholder      #1D2021 #0C0C0C $fg     #000000   #0C0C0C
 
 #
 # Status bar:
@@ -319,11 +319,12 @@ client.placeholder      #1D2021 #0C0C0C $fg      #000000   #0C0C0C
 bar {
     position top
  
-    status_command ~/.config/sway/status.sh
-    #status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    status_command while ~/.config/sway/status.sh; do sleep 1; done
+    
+    font pango:DejaVu
 
     colors {
-        statusline #99ffff
+        statusline #ffffff
         # text color of status bar
         background #323232
         #background color of status bar

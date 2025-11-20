@@ -1,12 +1,15 @@
-# sway bar status config file
+# status bar config file for sway
 
-date_formatted=$(date "+%a %Y-%m-%d %H:%M")
+# get date
+#date_formatted=$(date "+%a %Y-%m-%d %H:%M")
+day_formatted=$(date "+%a")
+date_formatted=$(date "+%d-%b-%Y") 
+time_formatted=$(date "+%H:%M")
+
+# get Linux version info
 linux_info=$(uname -r | cut -d '-' -f1)
 
 # get the current username
 USERNAME=$(whoami)
 
-while echo $date_formatted "|" $USERNAME; do
-#while date +'%a %Y-%m-%d %H:%M'; do
-   sleep 1
-done
+echo $USERNAME " " $day_formatted $date_formatted " " $time_formatted "  "
