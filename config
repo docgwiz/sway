@@ -80,8 +80,11 @@ set $right l
 # Set terminal emulator
 set $term foot
 
-# Set fil manager
-set $filemngr dolphin
+# Set file manager
+set $filemngr nautilus
+
+# Set alt file manager
+set $altfilemngr dolphin
 
 # Set application launcher
 set $menu wmenu-run
@@ -95,6 +98,7 @@ set $pwdmngr 1password
 
 # Set note manager
 set $notemngr obsidian
+set $notemngrPATH "/home/docgwiz/AppImages/Obsidian-1.10.3.AppImage"
 
 # This file doesn't exist yet
 include /etc/sway/config-vars.d/*
@@ -124,6 +128,9 @@ include /etc/sway/config-vars.d/*
     # Start file manager
     bindsym $mod+f exec $filemngr
 
+    # Start alt file manager
+    bindsym $mod+Shift+f exec $altfilemngr
+    
     # Start launcher
     bindsym $mod+space exec $menu
 
@@ -133,8 +140,14 @@ include /etc/sway/config-vars.d/*
     # Start password manager
     bindsym $mod+p exec $pwdmngr
 
-    # Start diary
-    bindsym $mod+o exec $notemngr
+		# launch Obsidian AppImage via script file in /usr/local/bin (which must be in $PATH)
+    bindsym $mod+o exec obsidian.sh
+
+		# launch Obsidian AppImage with a variable that specifies the image location (see above)
+    bindsym $mod+Shift+o exec $notemngrPATH
+
+		# LEGACY: launch Obsidian installed snap package (may not be installed)
+    bindsym $super+o exec $notemngr
 
 
 #
