@@ -61,6 +61,7 @@ default_border pixel 3
 exec mako
 
 
+
 ### Variables
 
 # Set $mod key
@@ -91,14 +92,14 @@ set $menu wmenu-run
   # replace with wofi
 
 # Set browser
-set $browser firefox
+set $browser firefox-esr
 
 # Set password manager
 set $pwdmngr 1password
 
 # Set note manager
 set $notemngr obsidian
-set $notemngrPATH "/home/docgwiz/AppImages/Obsidian-1.10.3.AppImage"
+set $notemngrPATH "~/AppImages/Obsidian.AppImage"
 
 # This file doesn't exist yet
 include /etc/sway/config-vars.d/*
@@ -140,11 +141,11 @@ include /etc/sway/config-vars.d/*
     # Start password manager
     bindsym $mod+p exec $pwdmngr
 
-		# launch Obsidian AppImage via script file in /usr/local/bin (which must be in $PATH)
-    bindsym $mod+o exec obsidian.sh
-
 		# launch Obsidian AppImage with a variable that specifies the image location (see above)
-    bindsym $mod+Shift+o exec $notemngrPATH
+    bindsym $mod+o exec $notemngrPATH
+
+		# launch Obsidian AppImage via script file in /usr/local/bin)
+    bindsym $mod+Shift+o exec obsidian.sh
 
 		# LEGACY: launch Obsidian installed snap package (may not be installed)
     bindsym $super+o exec $notemngr
