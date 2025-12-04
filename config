@@ -58,6 +58,7 @@ default_border pixel 3
 
 ### Autostart
 
+exec /usr/libexec/polkit-mate-authentication-agent-1
 exec mako
 
 
@@ -225,10 +226,10 @@ include /etc/sway/config-vars.d/*
     bindsym $mod+Shift+d layout toggle split
 
     # Make the current focus fullscreen
-    # bindsym $mod+f fullscreen
+    bindsym $mod+Shift+Return fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    # bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Shift+space floating toggle
 
     # Swap focus between the tiling area and the floating area
     # bindsym $mod+space focus mode_toggle
@@ -275,7 +276,7 @@ bindsym $super+r mode "resize"
 # Utilities:
 #
     # Special keys to adjust volume via PulseAudio
-    # NOTE: RootyBear is using PipeWire PulseAudio
+    # NOTE: RootBear is using PipeWire PulseAudio
     bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
     bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
     bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
